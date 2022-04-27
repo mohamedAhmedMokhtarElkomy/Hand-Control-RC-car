@@ -6,7 +6,11 @@
 #define CarRightBackward PB10
 
 #define CarLeftForward PB1 
-#define CarLeftBackward PB0 
+#define CarLeftBackward PB0
+
+
+#define CarLeftSpeed PA7 //ENA
+#define CarRigthSpeed PA6 //ENB
 
 HardwareSerial serial(PA10, PA9);
 Adafruit_MPU6050 mpu;
@@ -34,6 +38,9 @@ void setup(void) {
 	serial.begin(115200);
 	setupMPU();
 	setupCar();
+
+  analogWrite(CarLeftSpeed, 100); //ENA pin
+  analogWrite(CarRigthSpeed, 200); //ENB pin
 		
 }
 
@@ -129,6 +136,10 @@ void setupCar(){
 	pinMode(CarRightBackward, OUTPUT);
 	pinMode(CarLeftForward, OUTPUT);
 	pinMode(CarLeftBackward, OUTPUT);
+
+  pinMode(CarLeftSpeed, OUTPUT);
+  pinMode(CarRigthSpeed, OUTPUT);
+  
 
 	digitalWrite(CarRightForward, LOW);
 	digitalWrite(CarRightBackward, LOW);
