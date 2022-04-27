@@ -32,11 +32,7 @@ void setup(void) {
 }
 
 void loop() {
-  analogWrite(CarLeftSpeed, 255); //ENA pin
-  analogWrite(CarRigthSpeed, 255); //ENB pin
-  serial.println("Here");
-	moveForward();
-  // loopMPU();	
+  loopMPU();	
 }
 
 
@@ -79,15 +75,15 @@ void checkDir(int x, int y, int z){
 		serial.println("Left");
 		serial.println(x);
 		moveLeft();
-    // int PWM = CarSpeed(x);
-    // serial.println(PWM);
+    int PWM = CarSpeed(x);
+    serial.println(PWM);
 	}
 	else if(x < -1){
 		serial.println("Right");
 		serial.println(x);
 		moveRight();
-    // int PWM = CarSpeed(x);
-    // serial.println(PWM);
+    int PWM = CarSpeed(x);
+    serial.println(PWM);
 	}
 	// else
 	//  Horizontal = false;
@@ -96,15 +92,15 @@ void checkDir(int x, int y, int z){
 		serial.println("Backward");
 		serial.println(y);
 		moveBackward();
-    // int PWM = CarSpeed(y);
-    // serial.println(PWM);
+    int PWM = CarSpeed(y);
+    serial.println(PWM);
 	}
 	else if(y < -1){
 		serial.println("Forward");
 		serial.println(y);
 		moveForward();
-    // int PWM = CarSpeed(y);
-    // serial.println(PWM);
+    int PWM = CarSpeed(y);
+    serial.println(PWM);
 	}
 	// else
 	//  Vertical = false;
