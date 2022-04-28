@@ -1,4 +1,7 @@
 #include <Arduino.h>
+
+HardwareSerial serial(PA10, PA9);
+
 #define CarRightForward PB11 
 #define CarRightBackward PB10
 
@@ -65,6 +68,7 @@ void Idle()
 
 //ratio used for horizontal and vertical direction combined
 int CarSpeed(int tilt, int ratioLeft, int ratioRight){
+	serial.println("Car Speed"); 
   if(tilt<0)
     tilt = -tilt;
   int PWM = ((tilt - 1) * 20) +100;
