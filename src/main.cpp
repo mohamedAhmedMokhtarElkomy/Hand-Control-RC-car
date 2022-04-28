@@ -3,6 +3,8 @@
 #include <Wire.h>
 #include <Car.h>
 
+#define SPEED_RATIO 0.7
+
 HardwareSerial serial(PA10, PA9);
 Adafruit_MPU6050 mpu;
 
@@ -28,10 +30,15 @@ void setup(void) {
 	
 	serial.begin(115200);
 	setupMPU();
-	setupCar();		
+	setupCar();	
+	
+  	analogWrite(CarLeftSpeed, 100); //ENA pin
+  	analogWrite(CarRigthSpeed, 100); //ENB pin	
 }
 
 void loop() {
+	// moveForward();
+	// serial.println("Moving");
   loopMPU();	
 }
 
@@ -70,46 +77,86 @@ void loopMPU(){
 void checkDir(int x, int y, int z){
 	bool Horizontal = true;
 	bool Vertical = true;
-	
-	if(x > 1){
+	int PWM=0;
+
+	if(y > 1){
+		moveBackward();
+		if(x>1){
+			serial.println("Backward Left");
+			serial.println(x,y);
+			if(x>y)
+				PWM = CarSpeed(x,SPEED_RATIO,1); //both wheels same speed
+			else
+				PWM = CarSpeed(y,SPEED_RATIO,1); //both wheels same speed
+    		serial.println(PWM);
+		}
+		else if(x<-1){
+			serial.println("Backward Right");
+			serial.println(x,y);
+			if(x>y)
+				PWM = CarSpeed(x,1,SPEED_RATIO); //both wheels same speed
+			else
+				PWM = CarSpeed(y,1,SPEED_RATIO); //both wheels same speed
+    		serial.println(PWM);
+		}
+		else{
+			serial.println("Backward");
+			serial.println(y);
+			PWM = CarSpeed(y,1,1); //both wheels same speed
+    		serial.println(PWM);	
+		}
+	}
+	else if(y < -1){
+		
+		moveForward();
+		serial.println(y);
+		if(x>1){
+			serial.println("Forward Left");
+			serial.println(x,y);
+			if(x>y)
+				PWM = CarSpeed(x,SPEED_RATIO,1); //both wheels same speed
+			else
+				PWM = CarSpeed(y,SPEED_RATIO,1); //both wheels same speed
+    		serial.println(PWM);
+		}
+		else if(x<-1){
+			serial.println("Forward Right");
+			serial.println(x,y);
+			if(x>y)
+				PWM = CarSpeed(x,1,SPEED_RATIO); //both wheels same speed
+			else
+				PWM = CarSpeed(y,1,SPEED_RATIO); //both wheels same speed
+    		serial.println(PWM);
+		}
+		else{
+			serial.println("Forward");
+			serial.println(x,y);
+			if(x>y)
+				PWM = CarSpeed(x,1,1); //both wheels same speed
+			else
+				PWM = CarSpeed(y,1,1); //both wheels same speed
+    		serial.println(PWM);	
+		}
+	}
+	else if(x>1){
+		
 		serial.println("Left");
 		serial.println(x);
 		moveLeft();
-    int PWM = CarSpeed(x);
-    serial.println(PWM);
+		PWM = CarSpeed(x,1,1); //both wheels same speed
+		serial.println(PWM);
 	}
-	else if(x < -1){
+	else if(x<-1){
+		
 		serial.println("Right");
 		serial.println(x);
 		moveRight();
-    int PWM = CarSpeed(x);
-    serial.println(PWM);
+		PWM = CarSpeed(x,1,1); //both wheels same speed
+		serial.println(PWM);
 	}
-	// else
-	//  Horizontal = false;
-	
-	else if(y > 1){
-		serial.println("Backward");
-		serial.println(y);
-		moveBackward();
-    int PWM = CarSpeed(y);
-    serial.println(PWM);
-	}
-	else if(y < -1){
-		serial.println("Forward");
-		serial.println(y);
-		moveForward();
-    int PWM = CarSpeed(y);
-    serial.println(PWM);
-	}
-	// else
-	//  Vertical = false;
-
-	// if(!Horizontal  && !Vertical)
 	else{
 		Idle();
-    serial.println(x);
-		serial.println(y);
+		serial.println("Idle");
   }
 }
 
