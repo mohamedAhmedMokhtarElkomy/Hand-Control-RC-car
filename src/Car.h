@@ -18,8 +18,8 @@ void setupCar(){
 	pinMode(CarLeftForward, OUTPUT);
 	pinMode(CarLeftBackward, OUTPUT);
 
-  	pinMode(CarLeftSpeed, OUTPUT);
-  	pinMode(CarRigthSpeed, OUTPUT);
+  pinMode(CarLeftSpeed, OUTPUT);
+  pinMode(CarRigthSpeed, OUTPUT);
   
 
 	digitalWrite(CarRightForward, LOW);
@@ -66,25 +66,19 @@ void Idle()
 	digitalWrite(CarLeftBackward, LOW);
 }
 
-//ratio used for horizontal and vertical direction combined
-int CarSpeed(int tilt, int ratioLeft, int ratioRight){
-	serial.println("Car Speed"); 
-  if(tilt<0)
-    tilt = -tilt;
-  int PWM = ((tilt - 1) * 20) +100;
-  if(PWM > 255)
-    PWM = 255;
-  analogWrite(CarLeftSpeed, PWM * ratioLeft< 100? 100: PWM * ratioLeft); //ENA pin
-  analogWrite(CarRigthSpeed, PWM * ratioRight < 100? 100: PWM * ratioRight); //ENB pin
-  return PWM;
-}
-
-	//100-->255
-	//155/9 = 20
+int CarSpeed(int tilt){
   //taking x and y and turning them to PWM
   //x and y Resolution 2-->10  (9 modes)
   //PWM Resolution 0-->255
   //Equation 255/9 = 28.3 ~= 30
-  //0 0, 1 0, 2 100, 3 120, 4 140, 5 160, 6 180, 7 200, 8 220, 9 240, 10 255.
+  //0 0, 1 0, 2 30, 3 60, 4 90, 5 120, 6 150, 7 180, 8 210, 9 240, 10 255.
   //we only enter this function if left or right >1
-  
+  if(tilt<0)
+    tilt = -tilt;
+  int PWM = (tilt - 1) * 30;
+  if(PWM > 255)
+    PWM = 255;
+  analogWrite(CarLeftSpeed, PWM); //ENA pin
+  analogWrite(CarRigthSpeed, PWM); //ENB pin
+  return PWM;
+}
