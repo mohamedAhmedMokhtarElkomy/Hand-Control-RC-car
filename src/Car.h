@@ -2,15 +2,15 @@
 
 HardwareSerial serial(PA10, PA9);
 
-#define CarRightForward PB11 
-#define CarRightBackward PB10
+#define CarRightForward PA12	 
+#define CarRightBackward PA15
 
-#define CarLeftForward PB1 
-#define CarLeftBackward PB0
+#define CarLeftForward PB3
+#define CarLeftBackward PB4
 
 
-#define CarLeftSpeed PA7 //ENA
-#define CarRigthSpeed PA6 //ENB
+#define CarLeftSpeed PA1 //ENA
+#define CarRigthSpeed PA0 //ENB
 
 void setupCar(){
 	pinMode(CarRightForward, OUTPUT);
