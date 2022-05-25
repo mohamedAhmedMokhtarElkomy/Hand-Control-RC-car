@@ -117,6 +117,7 @@ void moveCar(){
       break;
     default://Idle in case 8 or any
       Idle();
+      break;
   }
 
 
