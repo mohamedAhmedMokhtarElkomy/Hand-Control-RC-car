@@ -115,12 +115,8 @@ void moveCar(){
       moveForward();
       CarSpeed(message.tilt, SPEED_RATIO,1);
       break;
-    case 8://Idle
+    default://Idle in case 8 or any
       Idle();
-      break;
-    default:
-      moveForward();
-      CarSpeed(9);
   }
 
 
