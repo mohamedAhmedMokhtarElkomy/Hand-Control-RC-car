@@ -108,11 +108,11 @@ void moveCar(){
       CarSpeed(message.tilt, 1,SPEED_RATIO);
       break;
     case 6://Backward Right 
-      moveForward();
+      moveBackward();
       CarSpeed(message.tilt, 1,SPEED_RATIO);
       break;
     case 7://Backward Left
-      moveForward();
+      moveBackward();
       CarSpeed(message.tilt, SPEED_RATIO,1);
       break;
     default://Idle in case 8 or any

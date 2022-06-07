@@ -76,8 +76,8 @@ int CarSpeed(int tilt, int ratioLeft = 1, int ratioRight = 1){
   int PWM = (tilt - 1) * 30;
   if(PWM > 255)
     PWM = 255;
-  analogWrite(CarLeftSpeed, PWM); //ENA pin
-  analogWrite(CarRigthSpeed, PWM); //ENB pin
+  analogWrite(CarLeftSpeed, PWM * ratioLeft< 100? 100: PWM * ratioLeft); //ENA pin
+  analogWrite(CarRigthSpeed, PWM * ratioRight < 100? 100: PWM * ratioRight); //ENB pin
   return PWM;
 }
 
